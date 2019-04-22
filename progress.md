@@ -1,6 +1,6 @@
 Team: Team Physics
 
-Members: Andrew Weith, Alex Bonasera
+Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 
 [Andrew Weith](https://github.com/Andreweweith)
 
