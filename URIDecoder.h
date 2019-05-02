@@ -1,0 +1,1 @@
+struct input *decode_uri(char *src);
