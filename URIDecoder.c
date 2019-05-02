@@ -57,9 +57,3 @@ struct input *decode_uri(char *src) {
 	build_struct(input_, dst);
 	return input_;
 }
-
-int main(int argc, char *argv[]) {
-	struct input *input_ = decode_uri("/run?uid=10&cmd=ls%20-l");
-	printf("Output: uid=%d, cmd=%s\n", input_->uid, input_->cmd);
-	return 0;
-}
