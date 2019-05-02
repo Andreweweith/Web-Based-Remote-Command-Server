@@ -3,7 +3,7 @@
 #include <string.h>
 #include <unistd.h>
 #include "execute.h"
-#include "json.h"
+#include "structs.h"
 
 #define INITIAL_BUFFER_SIZE 1024
 

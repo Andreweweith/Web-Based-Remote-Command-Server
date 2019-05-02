@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include "URIDecoder.h"
-#include "json.h"
+#include "structs.h"
 
 // Credit to https://stackoverflow.com/a/14530993
-void remove_special_characters(char *dst, const char *src){
+void remove_special_characters(char *dst, const char *src) {
 	char a, b;
 	while (*src) {
 		if ((*src == '%') && ((a = src[1]) && (b = src[2])) && (isxdigit(a) && isxdigit(b))) {
@@ -39,7 +39,7 @@ void remove_special_characters(char *dst, const char *src){
 void build_struct(struct input *input_, char *uri) {
 	char *key;
 	char *val;
-	strtok(uri, "?");
+	input_->path = strtok(uri, "?");
 	while ((key = strtok(NULL, "=")) != NULL) {
 		val = strtok(NULL, "&");
 		if (!strcmp(key, "uid")) {
