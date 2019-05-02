@@ -12,6 +12,6 @@ No progress.
 
 |Member|Tasks Performed|Tasks Assigned|Percentage Performed|
 |-|-|-|-|
-|Alex Bonasera||Server Socket Provider, Server Command Handler, Port Option|0%|
+|Alex Bonasera|URI Decoder|Server Socket Provider, Server Command Handler, Port Option|10%|
 |Andrew Weith||Webpage HTML, Webpage Javascript, Style Webpage|0%|
 |Mac Shakshober||JSON Request Parser, JSON Response Builder|0%|
