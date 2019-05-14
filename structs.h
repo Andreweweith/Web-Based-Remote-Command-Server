@@ -1,22 +1,32 @@
+#ifndef STRUCTS_H
+#define STRUCTS_H
+
 struct input {
-	char *path;
+	char* path;
 	int uid;
-	char *cmd;
+	char* cmd;
 };
 
 struct output {
-	char *stdout;
-	char *stderr;
+	char* stdout;
+	char* stderr;
 };
 
 struct httpheader {
-	char *firstline;
-	char *data;
-	struct httpheaderitem *item;
+	char* firstline;
+	char* data;
+	struct httpheaderitem* item;
 };
 
 struct httpheaderitem {
-	char *key;
-	char *val;
-	struct httpheaderitem *next;
+	char* key;
+	char* val;
+	struct httpheaderitem* next;
 };
+
+struct commandlineoptions {
+	char port[256];
+	int restrictConnections;
+};
+
+#endif

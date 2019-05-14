@@ -14,4 +14,4 @@ No progress.
 |-|-|-|-|
 |Alex Bonasera|URI Decoder|Server Socket Provider, Server Command Handler, Port Option|10%|
 |Andrew Weith||Webpage HTML, Webpage Javascript, Style Webpage|0%|
-|Mac Shakshober||JSON Response Builder, HTTP Builder and Parser, Option for Changing Default Port|5%|
+|Mac Shakshober|JSON Response Builder, HTTP Builder and Parser|Option for Changing Default Port|80%|
