@@ -7,8 +7,8 @@ struct input {
 };
 
 struct output {
-	char* stdout;
-	char* stderr;
+	char* stdout_;
+	char* stderr_;
 };
 
 struct httpheader {
