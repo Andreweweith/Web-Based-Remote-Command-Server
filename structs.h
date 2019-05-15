@@ -3,7 +3,6 @@
 
 struct input {
 	char* path;
-	int uid;
 	char* cmd;
 };
 
