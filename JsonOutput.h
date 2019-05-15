@@ -6,6 +6,6 @@
 #include <string.h>
 #include "structs.h"
 
-void getOutputJsonString(char* jsonString, struct output* output_);
+char *getOutputJsonString(struct output* output_);
 
 #endif
