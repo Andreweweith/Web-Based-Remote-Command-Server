@@ -10,6 +10,8 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "HttpHeaderInterpreter.h"
+#include "structs.h"
 
 #define PORT "3838"  // the port users will be connecting to
 
@@ -54,7 +56,8 @@ void HandleConnection(int socket) {
 	int nBytes;
 	while ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
 		buf[nBytes] = '\0';
-		printf("%s", buf);
+		struct httpheader *httpheader_ = getHttpHeaderStruct(buf);
+		printf("%s", httpheader_->firstline);
 		if (send(sockfd, reply, strlen(reply), 0) == -1) {
 			perror("send");
 			break;

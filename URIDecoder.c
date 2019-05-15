@@ -36,18 +36,26 @@ void remove_special_characters(char *dst, const char *src) {
 	*dst++ = '\0';
 }
 
+const char cmd_string[4] = "cmd";
+const char qus_string[2] = "?";
+const char eql_string[2] = "=";
 void build_struct(struct input *input_, char *uri) {
 	char *key;
 	char *val;
-	input_->path = strtok(uri, "?");
-	while ((key = strtok(NULL, "=")) != NULL) {
-		val = strtok(NULL, "&");
-		if (!strcmp(key, "uid")) {
+	char *cmd_;
+	int cmd_length = 1;
+	input_->path = strtok(uri, qus_string);
+	strtok(NULL, eql_string);
+	input_->cmd = strtok(NULL, '\0');
+	/*while ((key = strtok(NULL, eql_string)) != NULL) {
+		val = strtok(NULL, amp_string);
+		if (!strcmp(key, uid_string)) {
 			input_->uid = atoi(val);
 		} else {
-			input_->cmd = val;
+			cmd_ = val;
 		}
-	}
+	}*/
+	// split single string command into string array by spaces
 }
 
 struct input *decode_uri(char *src) {
