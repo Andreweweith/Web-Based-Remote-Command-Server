@@ -12,6 +12,7 @@
 #include <signal.h>
 #include "HttpHeaderInterpreter.h"
 #include "structs.h"
+#include "URIDecoder.h"
 
 #define PORT "3838"  // the port users will be connecting to
 
@@ -42,32 +43,54 @@ void *get_in_addr(struct sockaddr *sa)
 }
 
 void HandleConnection(int socket) {
-//void *HandleConnection(void *socket) {
-	char *reply =
-		"HTTP/1.1 200 OK\n"
-		"Content-Type: text/html\n"
-		"Content-Length: 15\n"
-		"Accept-Ranges: bytes\n"
-		"Connection: keep-alive\n"
-		"\n"
-		"sdfkjsdnbfkjbsf";
-	int sockfd = socket; //*((int *)socket);
+	int sockfd = socket;
 	char buf[RECV_BUFFER_SIZE];
 	int nBytes;
-	while ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
+	if ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
 		buf[nBytes] = '\0';
+		printf("%s\n", buf);
 		struct httpheader *httpheader_ = getHttpHeaderStruct(buf);
-		printf("%s", httpheader_->firstline);
-		if (send(sockfd, reply, strlen(reply), 0) == -1) {
-			perror("send");
-			break;
+		char* requestType = malloc(strlen(httpheader_->firstline) * sizeof(char));
+		char* uri = malloc(strlen(httpheader_->firstline) * sizeof(char));
+		char* garbage = malloc(strlen(httpheader_->firstline) * sizeof(char));
+		sscanf(httpheader_->firstline, "%s %s %s", requestType, uri, garbage);
+		printf("%s\n", uri);
+
+		if (strcmp(requestType, "GET") == 0) {
+			if (strcmp(uri, "/") == 0) {
+				// send monster file
+				char *reply =
+					"HTTP/1.1 200 OK\n"
+					"Content-Type: text/html\n"
+					"Content-Length: 15\n"
+					"Accept-Ranges: bytes\n"
+					"Connection: keep-alive\n"
+					"\n"
+					"sdfkjsdnbfkjbsf";
+				if (send(sockfd, reply, strlen(reply), 0) == -1) {
+					perror("send");
+				}
+			} else {
+				char *reply404 =
+					"HTTP/1.1 404 Bad\n"
+					"Content-Type: text/html\n"
+					"Content-Length: 23\n"
+					"Accept-Ranges: bytes\n"
+					"\n"
+					"HTTP 404 Page Not Found";
+				if (send(sockfd, reply404, strlen(reply404), 0) == -1) {
+					perror("send");
+				}
+			}
 		}
+		//if (strlen(uri) > 0) {
+		//	struct input *input_ = decode_uri(uri);
+		//}
 	}
 	if (nBytes == -1) {
 		perror("recv");
 	}
 	close(sockfd);
-	//pthread_exit(NULL);
 }
 
 int main(int argc, char *argv[]) {
@@ -156,16 +179,6 @@ int main(int argc, char *argv[]) {
 			HandleConnection(new_fd);
 			exit(0);
 		}
-
-		/*pthread_t thread;
-		int *arg = malloc(sizeof(*arg)); // data for pthread
-		*arg = new_fd;
-		rv = pthread_create(&thread, NULL, HandleConnection, arg);
-		if (rv) {
-			perror("pthread_create");
-		} else {
-			pthread_detach(thread);
-		}*/
 	}
 	return 0;
 }

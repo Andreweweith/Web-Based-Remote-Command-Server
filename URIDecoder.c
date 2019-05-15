@@ -24,12 +24,10 @@ void remove_special_characters(char *dst, const char *src) {
 				b -= '0';
 			*dst++ = 16 * a + b;
 			src += 3;
-		}
-		else if (*src == '+') {
+		} else if (*src == '+') {
 			*dst++ = ' ';
 			src++;
-		}
-		else {
+		} else {
 			*dst++ = *src++;
 		}
 	}
@@ -39,29 +37,20 @@ void remove_special_characters(char *dst, const char *src) {
 const char cmd_string[4] = "cmd";
 const char qus_string[2] = "?";
 const char eql_string[2] = "=";
+const char sls_string[2] = "/";
 void build_struct(struct input *input_, char *uri) {
-	char *key;
-	char *val;
-	char *cmd_;
-	int cmd_length = 1;
-	input_->path = strtok(uri, qus_string);
-	strtok(NULL, eql_string);
-	input_->cmd = strtok(NULL, '\0');
-	/*while ((key = strtok(NULL, eql_string)) != NULL) {
-		val = strtok(NULL, amp_string);
-		if (!strcmp(key, uid_string)) {
-			input_->uid = atoi(val);
-		} else {
-			cmd_ = val;
-		}
-	}*/
-	// split single string command into string array by spaces
+	input_->path = malloc(strlen(uri) * sizeof(char));
+	input_->cmd = malloc(strlen(uri) * sizeof(char));
+	char *qus = strchr(uri, '?');
+	if (qus != NULL) {
+		*qus = ' ';
+	}
+	sscanf(uri, "%s cmd=%s", input_->path, input_->cmd);
 }
 
 struct input *decode_uri(char *src) {
 	struct input *input_ = malloc(sizeof(struct input));
-	char *dst = malloc(strlen(src) + 1);
-	remove_special_characters(dst, src);
-	build_struct(input_, dst);
+	build_struct(input_, src);
+	remove_special_characters(input_->cmd, input_->cmd);
 	return input_;
 }
