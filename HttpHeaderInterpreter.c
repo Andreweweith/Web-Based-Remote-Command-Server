@@ -43,11 +43,11 @@ struct httpheader* getHttpHeaderStruct(char* headerString)
 	}
 
 	// Make a substring with only the remaining header lines
-	char* headerSubString = malloc(length * sizeof(char));
-	strncpy(headerSubString, headerString + begin, length);
+	//char* headerSubString = malloc(length * sizeof(char));
+	//strncpy(headerSubString, headerString + begin, length);
 
-	httpHeaderPtr->item = getHttpItemStruct(headerSubString);
-	free(headerSubString);
+	//httpHeaderPtr->item = getHttpItemStruct(headerSubString);
+	//free(headerSubString);
 
 	return httpHeaderPtr;
 }
