@@ -63,7 +63,6 @@ input[type=button]:hover {
     -moz-transition: all 0.30s ease-in-out;
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
-    /*background-color: #1c1717;*/
     text-shadow: 0 0 2px rgba(29, 185, 84, 0.8);
     box-shadow: 0 0 8px rgba(29, 185, 84, 0.5);
 }
@@ -90,7 +89,6 @@ textarea.middle_box {
     width: 85%;
     height: 300px;
     outline-color: #00B3FF;
-    /*border-color: #535353;*/
     color: #00B3FF;
     display: block;
     margin-top: 15px;
@@ -109,7 +107,6 @@ textarea.middle_box:focus {
     box-shadow: 0 0 5px rgba(0, 179, 255, 1);
     padding: 15px;
     border: 1px solid rgba(0, 179, 255, 1);
-    /*text-indent: 5px;*/
     text-align: left;
 }
 textarea.middle_box:hover {
@@ -120,7 +117,6 @@ textarea.middle_box:hover {
     box-shadow: 0 0 6px rgba(0, 179, 255, 0.5);
     padding: 15px;
     border: 1px solid rgba(83, 83, 83, 1);
-    /*text-indent: 5px;*/
     text-align: left;
 }
 textarea.mb_unfocus {
@@ -131,7 +127,6 @@ textarea.mb_unfocus {
     box-shadow: none;
     padding: 15px;
     border: 1px solid rgba(23, 23, 23, 1);
-    /*text-indent: 5px;*/
     text-align: left;
 }
 
@@ -140,7 +135,6 @@ textarea.end_box {
     resize: none;
     width: 85%;
     outline-color: #ED00FF;
-    /*border-color: #535353;*/
     color: #ED00FF;
     display: block;
     margin-top: 15px;
@@ -157,9 +151,7 @@ textarea.end_box:focus {
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
     box-shadow: 0 0 5px rgba(237, 0, 255, 1);
-    /*padding: 15px;*/
     border: 1px solid rgba(237, 0, 255, 1);
-    /*text-indent: 5px;*/
 }
 textarea.end_box:hover {
     -webkit-transition: all 0.30s ease-in-out;
@@ -167,9 +159,7 @@ textarea.end_box:hover {
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
     box-shadow: 0 0 6px rgba(237, 0, 255, 0.5);
-    /*padding: 15px;*/
     border: 1px solid rgba(83, 83, 83, 1);
-    /*text-indent: 5px;*/
     text-align: left;
 }
 textarea.eb_unfocus {
@@ -178,9 +168,7 @@ textarea.eb_unfocus {
     -ms-transition: all 0.30s ease-in-out;
     -o-transition: all 0.30s ease-in-out;
     box-shadow: none;
-    /*padding: 15px;*/
     border: 1px solid rgba(23, 23, 23, 1);
-    /*text-indent: 5px;*/
 }
 
 textarea.middle_box::selection,

@@ -31,9 +31,6 @@ window.onload = function() {
     }
 }
 
-
-
-
 function handleResponse() {
     if (this.status == 200 && this.responseText != null) {
 
