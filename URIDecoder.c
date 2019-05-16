@@ -34,10 +34,6 @@ void remove_special_characters(char *dst, const char *src) {
 	*dst++ = '\0';
 }
 
-const char cmd_string[4] = "cmd";
-const char qus_string[2] = "?";
-const char eql_string[2] = "=";
-const char sls_string[2] = "/";
 void build_struct(struct input *input_, char *uri) {
 	input_->path = malloc(strlen(uri) * sizeof(char));
 	input_->cmd = malloc(strlen(uri) * sizeof(char));
