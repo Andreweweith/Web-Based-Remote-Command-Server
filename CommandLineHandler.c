@@ -17,7 +17,7 @@ Returns 0 if program should stop.
 */
 int handleCommandLineOptions(int argc, char** argv, struct commandlineoptions *options)
 {
-	int i, j, k, portWasNotSet = 1, connectionRestrictionNotRemoved = 1;
+	int i, j, portWasNotSet = 1, connectionRestrictionNotRemoved = 1;
 	options->restrictConnections = 1;
 	strcpy(options->port, "3838");
 
