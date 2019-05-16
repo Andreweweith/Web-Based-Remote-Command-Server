@@ -35,6 +35,7 @@ Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 [Progress Report](progress.md)
 
 **Task Table**
+
 |Member|Tasks Performed|Tasks Assigned|Percentage Performed|
 |-|-|-|-|
 |Alex Bonasera|URI Decoder, Server Socket Provider, Server Command Handler, Use Options||95%|
