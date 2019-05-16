@@ -2,17 +2,33 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include "execute.h"
+#include <sys/types.h>
+#include <sys/wait.h>
 #include "structs.h"
 #include "CommandHandler.h"
 
 #define INITIAL_BUFFER_SIZE 1024
 
-struct output handle_command(char *cmd) {
-
+struct output *handle_command(char *cmd) {
+	int arg_count = 2;
+	char *chr;
+	for (chr = cmd; *chr != '\0'; chr++) {
+		if (*chr == ' ') {
+			arg_count++;
+		}
+	}
+	char *cmds[arg_count];
+	int i = 0;
+	char *tok;
+	char *saveptr;
+	for (tok = strtok_r(cmd, " ", &saveptr); tok != NULL; tok = strtok_r(NULL, " ", &saveptr)) {
+		cmds[i++] = tok;
+	}
+	cmds[arg_count - 1] = NULL;
+	return execute_command(cmds);
 }
 
-struct output execute_command(char *cmd[]) {
+struct output *execute_command(char *cmd[]) {
 	pid_t pid;
 	int pout[2];
 	int perr[2];
@@ -40,22 +56,24 @@ struct output execute_command(char *cmd[]) {
 		int nBytes;
 		int stdoutsize = 0;
 		int stderrsize = 0;
-		char *stdout = NULL;
-		char *stderr = NULL;
+		char *stdout_ = NULL;
+		char *stderr_ = NULL;
 		// Read all of pout into stdout
 		do {
 			stdoutsize += INITIAL_BUFFER_SIZE;
-			stdout = realloc(stdout, stdoutsize * sizeof(char));
-			nBytes = read(pout[0], &stdout[stdoutsize - INITIAL_BUFFER_SIZE], INITIAL_BUFFER_SIZE);
+			stdout_ = realloc(stdout_, stdoutsize * sizeof(char));
+			nBytes = read(pout[0], &stdout_[stdoutsize - INITIAL_BUFFER_SIZE], INITIAL_BUFFER_SIZE);
 		} while (nBytes == INITIAL_BUFFER_SIZE);
 		// Read all of perr into stderr
 		do {
 			stderrsize += INITIAL_BUFFER_SIZE;
-			stderr = realloc(stderr, stderrsize * sizeof(char));
-			nBytes = read(perr[0], &stderr[stderrsize - INITIAL_BUFFER_SIZE], INITIAL_BUFFER_SIZE);
+			stderr_ = realloc(stderr_, stderrsize * sizeof(char));
+			nBytes = read(perr[0], &stderr_[stderrsize - INITIAL_BUFFER_SIZE], INITIAL_BUFFER_SIZE);
 		} while (nBytes == INITIAL_BUFFER_SIZE);
-		wait(NULL);
-		struct output output_ = { stdout, stderr };
+		waitpid(pid, NULL, 0);
+		struct output *output_ = malloc(sizeof(struct output));
+		output_->stdout_ = stdout_;
+		output_->stderr_ = stderr_;
 		return output_;
 	}
 }

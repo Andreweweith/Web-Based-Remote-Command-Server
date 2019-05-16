@@ -14,6 +14,7 @@
 #include "structs.h"
 #include "URIDecoder.h"
 #include "CommandHandler.h"
+#include "JsonOutput.h"
 
 #define PORT "3838"  // the port users will be connecting to
 
@@ -59,22 +60,9 @@ void HandleConnection(int socket) {
 		if (strcmp(requestType, "GET") == 0) {
 			if (strcmp(input_->path, "/") == 0) {
 				input_->path = "/webserver.html";
-			} else if (strcmp(input_->path, "/favicon.ico") == 0) {
-				char *reply404 =
-					"HTTP/1.1 404 Not Found\n"
-					"Content-Type: text/html\n"
-					"Content-Length: 23\n"
-					"\n"
-					"HTTP 404 Page Not Found";
-				if (send(sockfd, reply404, strlen(reply404), 0) == -1) {
-					perror("send");
-				}
-				close(sockfd);
-				return;
 			}
 
 			input_->path++;
-			printf("%s\n", input_->path);
 			FILE *fp = fopen(input_->path, "r");
 			if (fp != NULL) {
 				fseek(fp, 0, SEEK_END);
@@ -100,7 +88,7 @@ void HandleConnection(int socket) {
 					"\n"
 					"%s";
 				char *reply = malloc((size + 100) * sizeof(char));
-				sprintf(reply, format, content_type, strlen(content)-1, content);
+				sprintf(reply, format, content_type, strlen(content) - 1, content);
 				if (send(sockfd, reply, strlen(reply), 0) == -1) {
 					perror("send");
 				}
@@ -111,6 +99,7 @@ void HandleConnection(int socket) {
 					"Content-Length: 23\n"
 					"\n"
 					"HTTP 404 Page Not Found";
+				printf("Unable to send requested resource %s\n", input_->path);
 				if (send(sockfd, reply404, strlen(reply404), 0) == -1) {
 					perror("send");
 				}
@@ -118,15 +107,22 @@ void HandleConnection(int socket) {
 		} else if (strcmp(requestType, "POST") == 0) {
 			struct input *input_ = decode_uri(uri);
 			if (strcmp(input_->path, "/exec") == 0) {
-				//struct output = handle_command(input_->cmd);
-				
+				struct output *output_ = handle_command(input_->cmd);
+				char *outputString = getOutputJsonString(output_);
+				char *format =
+					"HTTP/1.1 200 OK\n"
+					"Content-Type: application/json\n"
+					"Content-Length: %d\n"
+					"\n"
+					"%s";
+				char *reply = malloc((strlen(outputString) + 100) * sizeof(char));
+				sprintf(reply, format, strlen(outputString), outputString);
+				if (send(sockfd, reply, strlen(reply), 0) == -1) {
+					perror("send");
+				}
 			}
 		}
 	}
-	/*while ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
-		buf[nBytes] = '\0';
-		printf("%s\n", buf);
-	}*/
 	if (nBytes == -1) {
 		perror("recv");
 	}
