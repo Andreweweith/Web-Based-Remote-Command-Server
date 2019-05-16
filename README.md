@@ -32,10 +32,4 @@ Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 
 3. Providing the `--help` option prints a help page for the user.
 
-## Task Table
-
-|Member|Tasks Performed|Tasks Assigned|Percentage Performed|
-|-|-|-|-|
-|Alex Bonasera|URI Decoder|Server Socket Provider, Server Command Handler, Port Option|10%|
-|Andrew Weith||Webpage HTML, Webpage Javascript, Style Webpage|0%|
-|Mac Shakshober|JSON Response Builder, HTTP Builder and Parser, Option for Changing Default Port||95%|
+[Progress Report](progress.md)
