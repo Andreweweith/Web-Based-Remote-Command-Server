@@ -45,10 +45,12 @@ void *get_in_addr(struct sockaddr *sa)
 
 void HandleConnection(int socket) {
 	int sockfd = socket;
+	//printf("Opening socket %d\n", sockfd);
 	char buf[RECV_BUFFER_SIZE];
 	int nBytes;
-	if ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
+	while ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
 		buf[nBytes] = '\0';
+		printf("%s\n", buf);
 		struct httpheader *httpheader_ = getHttpHeaderStruct(buf);
 		char* requestType = malloc(strlen(httpheader_->firstline) * sizeof(char));
 		char* uri = malloc(strlen(httpheader_->firstline) * sizeof(char));
@@ -122,9 +124,15 @@ void HandleConnection(int socket) {
 			}
 		}
 	}
+
+	/*if ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
+		buf[nBytes] = '\0';
+		printf("I SHOULD NOT GET THIS\n%s\n", buf);
+	}*/
 	if (nBytes == -1) {
 		perror("recv");
 	}
+	//printf("Closing socket %d\n", sockfd);
 	close(sockfd);
 }
 
