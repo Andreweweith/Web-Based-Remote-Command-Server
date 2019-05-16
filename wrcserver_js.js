@@ -34,8 +34,8 @@ window.onload = function() {
 function handleResponse() {
     if (this.status == 200 && this.responseText != null) {
 
-        document.getElementById("combox").textContent =
-                                    document.getElementById("command").textContent;
+        document.getElementById("combox").value =
+                                    document.getElementById("command").value;
 
         var response = JSON.parse(this.responseText);
 
