@@ -32,9 +32,16 @@ Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 
 3. Providing the `--help` option prints a help page for the user.
 
+**Demo Images**
+
+![Demo 1](demo_1.png)
+![Demo 2](demo_2.png)
+![Demo 3](demo_3.png)
+![Demo 4](demo_4.png)
+
 [Progress Report](progress.md)
 
-**Task Table**
+## Task Table
 
 |Member|Tasks Performed|Tasks Assigned|Percentage Performed|
 |-|-|-|-|
