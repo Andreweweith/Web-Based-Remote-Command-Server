@@ -18,14 +18,11 @@ Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 
 **OPTIONs:**
 
-+ -r 
-... allows the server to accept connections from sources other than localhost
++ -r allows the server to accept connections from sources other than localhost
 
-+ -p, --port=PORTNUMBER
-... use PORTNUMBER instead of the default port: 3838
++ -p, --port=PORTNUMBER use PORTNUMBER instead of the default port: 3838
 
-+ --help
-...provide the user with a documentation page
++ --help provide the user with a documentation page
 
 **Additional Functionalities**
 
