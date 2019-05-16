@@ -10,13 +10,12 @@
 #include <arpa/inet.h>
 #include <sys/wait.h>
 #include <signal.h>
+#include "CommandLineHandler.h"
 #include "HttpHeaderInterpreter.h"
 #include "structs.h"
 #include "URIDecoder.h"
 #include "CommandHandler.h"
 #include "JsonOutput.h"
-
-#define PORT "3838"  // the port users will be connecting to
 
 #define BACKLOG 10	 // how many pending connections queue will hold
 
@@ -130,6 +129,12 @@ void HandleConnection(int socket) {
 }
 
 int main(int argc, char *argv[]) {
+	struct commandlineoptions *options = malloc(sizeof(struct commandlineoptions));
+	if (!handleCommandLineOptions(argc, argv, options)) {
+		return 0;
+	}
+	char *port = options->port;
+	int restrictConnections = options->restrictConnections;
 	int sockfd; // listen on sockfd
 	int new_fd; // new connections on new_fd
 	struct addrinfo hints;
@@ -147,7 +152,7 @@ int main(int argc, char *argv[]) {
 	hints.ai_socktype = SOCK_STREAM;
 	hints.ai_flags = AI_PASSIVE; // use my IP
 
-	if ((rv = getaddrinfo(NULL, PORT, &hints, &servinfo)) != 0) {
+	if ((rv = getaddrinfo(NULL, port, &hints, &servinfo)) != 0) {
 		perror("getaddrinfo");
 		return 1;
 	}
@@ -203,6 +208,46 @@ int main(int argc, char *argv[]) {
 	while (1) {  // main accept() loop
 		sin_size = sizeof their_addr;
 		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
+
+		/*if (restrictConnections == 1) {
+			char ipaddress[INET_ADDRSTRLEN];
+			struct sockaddr *client_sockaddr = (struct sockaddr *)&their_addr;
+			if (client_sockaddr->sa_family == AF_INET) {
+				inet_ntop(AF_INET, &((struct sockaddr_in *)client_sockaddr)->sin_addr, ipaddress, INET_ADDRSTRLEN);
+				if (strcmp(ipaddress, "127.0.0.1") != 0) {
+					char *reply =
+						"HTTP/1.1 403 Forbidden\n"
+						"Content-Type: text/html\n"
+						"Content-Length: 18\n"
+						"\n"
+						"HTTP 403 Forbidden";
+					printf("server: connection refused to %s\n", ipaddress);
+					if (send(sockfd, reply, strlen(reply), 0) == -1) {
+						perror("send");
+					}
+					close(new_fd);
+					continue;
+				}
+			} else if (client_sockaddr->sa_family == AF_INET6) {
+				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)client_sockaddr)->sin6_addr, ipaddress, INET_ADDRSTRLEN);
+				if (strcmp(ipaddres, "::1") != 0) {
+					char *reply =
+						"HTTP/1.1 403 Forbidden\n"
+						"Content-Type: text/html\n"
+						"Content-Length: 18\n"
+						"\n"
+						"HTTP 403 Forbidden";
+					printf("server: connection refused to %s\n", ipaddress);
+					if (send(sockfd, reply, strlen(reply), 0) == -1) {
+						perror("send");
+					}
+					close(new_fd);
+					continue;
+				}
+			}
+
+		}*/
+
 		if (new_fd == -1) {
 			perror("accept");
 			continue;
@@ -210,6 +255,22 @@ int main(int argc, char *argv[]) {
 
 		inet_ntop(their_addr.ss_family, get_in_addr((struct sockaddr *)&their_addr), s, sizeof s);
 		printf("server: got connection from %s\n", s);
+		if (restrictConnections == 1) {
+			if (strcmp(s, "127.0.0.1") != 0 && strcmp(s, "::1") != 0) {
+				char *reply =
+					"HTTP/1.1 403 Forbidden\n"
+					"Content-Type: text/html\n"
+					"Content-Length: 18\n"
+					"\n"
+					"HTTP 403 Forbidden";
+				printf("server: connection refused to %s\n", s);
+				if (send(sockfd, reply, strlen(reply), 0) == -1) {
+					perror("send");
+				}
+				close(new_fd);
+				continue;
+			}
+		}
 
 		if (!fork()) {
 			HandleConnection(new_fd);
