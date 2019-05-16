@@ -13,7 +13,7 @@
         <h1 style="color: grey">Team Physics - <font size="5">Alex Bonasera, Andrew Weith, Mac Shakshober</font></h1>
 
         <div class="row" style="alignment: center">
-
+                <!-- Form for entering and submitting command -->
                 <div class="form">
                     <form action="" method="post" autocomplete="off" id="command_form" onsubmit="return false">
                         <input onblur="this.placeholder = 'Enter a command to run...'"
@@ -23,11 +23,11 @@
                     </form>
                 </div>
         </div>
-
+        <!-- Textarea for previous command inputs -->
         <div class="row">
             <textarea class="end_box" id="combox" onfocus="this.class = 'end_box'" onblur="this.class = 'eb_unfocus'" readonly="readonly"></textarea>
         </div>
-
+        <!-- Textareas for Stdout and Stderr respectively -->
         <div class="row">
             <textarea class="middle_box" id="stdout"  onfocus="this.class = 'middle_box'" onblur="this.class = 'mb_unfocus'" readonly="readonly"></textarea>
 
