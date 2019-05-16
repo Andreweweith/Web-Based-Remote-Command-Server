@@ -5,14 +5,25 @@ char *str_replace(char *orig, char *rep, char *with);
 char *getOutputJsonString(struct output* output_)
 {
 	// {"stdout":"output_->stdout_", "stderr":"output_->stderr_"}
-	char *jsonString = malloc((27 + strlen(output_->stdout_) + strlen(output_->stderr_)) * sizeof(char));
+	char *jsonString = malloc(2 * (27 + strlen(output_->stdout_) + strlen(output_->stderr_)) * sizeof(char));
 	strcpy(jsonString, "{\"stdout\":\"");
+	output_->stdout_ = str_replace(output_->stdout_, "\\", "\\\\");
+	output_->stdout_ = str_replace(output_->stdout_, "\"", "\\\"");
+	output_->stdout_ = str_replace(output_->stdout_, "\b", "\\b");
+	output_->stdout_ = str_replace(output_->stdout_, "\n", "\\n");
+	output_->stdout_ = str_replace(output_->stdout_, "\r", "\\r");
+	output_->stdout_ = str_replace(output_->stdout_, "\t", "\\t");
 	strcat(jsonString, output_->stdout_);
 	strcat(jsonString, "\", \"stderr\":\"");
+	output_->stderr_ = str_replace(output_->stderr_, "\\", "\\\\");
+	output_->stderr_ = str_replace(output_->stderr_, "\"", "\\\"");
+	output_->stderr_ = str_replace(output_->stderr_, "\b", "\\b");
+	output_->stderr_ = str_replace(output_->stderr_, "\n", "\\n");
+	output_->stderr_ = str_replace(output_->stderr_, "\r", "\\r");
+	output_->stderr_ = str_replace(output_->stderr_, "\t", "\\t");
 	strcat(jsonString, output_->stderr_);
 	strcat(jsonString, "\"}");
-	char *newString = str_replace(jsonString, "\n", "\\n");
-	return newString;
+	return jsonString;
 }
 
 // Credit to https://stackoverflow.com/a/779960
