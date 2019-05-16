@@ -4,13 +4,13 @@
 #include <unistd.h>
 #include "execute.h"
 #include "structs.h"
+#include "CommandHandler.h"
 
 #define INITIAL_BUFFER_SIZE 1024
 
-struct output execute_command(char *cmd[]);
-void *handle_input(void *input);
+struct output handle_command(char *cmd) {
 
-// TODO: Implement cd command
+}
 
 struct output execute_command(char *cmd[]) {
 	pid_t pid;
@@ -58,11 +58,4 @@ struct output execute_command(char *cmd[]) {
 		struct output output_ = { stdout, stderr };
 		return output_;
 	}
-}
-
-int main(int argc, char *argv[]) {
-	char *args[] = { "echo", "Yay", "it", "works", NULL };
-	struct output o = execute_command(args);
-	printf("stdout: (%s)\n", o.stdout);
-	printf("stderr: (%s)\n", o.stderr);
 }
