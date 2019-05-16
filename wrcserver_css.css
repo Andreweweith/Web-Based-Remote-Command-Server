@@ -1,0 +1,200 @@
+h1 {
+    margin: 15px;
+}
+
+input[type=text] {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    outline: none;
+    padding: 3px 0px 3px 3px;
+    margin: 5px;
+    border: 1px solid #535353;
+    border-radius: 8px;
+    background-color: #191414;
+    color: #1DB954;
+    font-size: 95%;
+    width: 70%;
+    height: 42px;
+    text-indent: 15px;
+}
+input[type=text]:hover {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 6px rgba(29, 185, 84, 0.5);
+    padding: 3px 0px 3px 3px;
+    margin: 5px;
+
+}
+input[type=text]:focus {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 10px rgba(29, 185, 84, 1);
+    padding: 3px 0px 3px 3px;
+    margin: 5px;
+    border: 1px solid rgba(29, 185, 84, 1);
+    text-indent: 15px;
+}
+input[type=text]:focus-within {
+    background-color: #2e2929;
+}
+
+input[type=text]::selection,
+input[type=text]:hover::selection,
+input[type=text]:focus::selection {
+    background: rgba(17, 99, 27, 0.53);
+}
+
+input[type=button] {
+    border: none;
+    background-color: #191414;
+    color: #1DB954;
+    border: 1px solid #535353;
+    border-radius: 4px;
+    padding: 10px 30px;
+}
+input[type=button]:hover {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    /*background-color: #1c1717;*/
+    text-shadow: 0 0 2px rgba(29, 185, 84, 0.8);
+    box-shadow: 0 0 8px rgba(29, 185, 84, 0.5);
+}
+input[type=button]:focus {
+    -webkit-transition: all 0.10s ease-in-out;
+    -moz-transition: all 0.10s ease-in-out;
+    -ms-transition: all 0.10s ease-in-out;
+    -o-transition: all 0.10s ease-in-out;
+    background-color: #1b1616;
+    outline: none;
+    text-shadow: 0 0 2px rgba(29, 185, 84, 0.8);
+    box-shadow: 0 0 8px rgba(29, 185, 84, 0.8);}
+
+div.form {
+    align-items: start;
+    display: block;
+    text-align: center;
+    color: #00B3FF;
+}
+
+textarea.middle_box {
+    background-color: #191414;
+    resize: none;
+    width: 85%;
+    height: 300px;
+    outline-color: #00B3FF;
+    /*border-color: #535353;*/
+    color: #00B3FF;
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #535353;
+}
+
+textarea.middle_box:focus {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 5px rgba(0, 179, 255, 1);
+    padding: 15px;
+    border: 1px solid rgba(0, 179, 255, 1);
+    /*text-indent: 5px;*/
+    text-align: left;
+}
+textarea.middle_box:hover {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 6px rgba(0, 179, 255, 0.5);
+    padding: 15px;
+    border: 1px solid rgba(83, 83, 83, 1);
+    /*text-indent: 5px;*/
+    text-align: left;
+}
+textarea.mb_unfocus {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: none;
+    padding: 15px;
+    border: 1px solid rgba(23, 23, 23, 1);
+    /*text-indent: 5px;*/
+    text-align: left;
+}
+
+textarea.end_box {
+    background-color: #191414;
+    resize: none;
+    width: 85%;
+    outline-color: #ED00FF;
+    /*border-color: #535353;*/
+    color: #ED00FF;
+    display: block;
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    padding: 15px;
+    border: 1px solid #535353;
+}
+
+textarea.end_box:focus {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 5px rgba(237, 0, 255, 1);
+    /*padding: 15px;*/
+    border: 1px solid rgba(237, 0, 255, 1);
+    /*text-indent: 5px;*/
+}
+textarea.end_box:hover {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: 0 0 6px rgba(237, 0, 255, 0.5);
+    /*padding: 15px;*/
+    border: 1px solid rgba(83, 83, 83, 1);
+    /*text-indent: 5px;*/
+    text-align: left;
+}
+textarea.eb_unfocus {
+    -webkit-transition: all 0.30s ease-in-out;
+    -moz-transition: all 0.30s ease-in-out;
+    -ms-transition: all 0.30s ease-in-out;
+    -o-transition: all 0.30s ease-in-out;
+    box-shadow: none;
+    /*padding: 15px;*/
+    border: 1px solid rgba(23, 23, 23, 1);
+    /*text-indent: 5px;*/
+}
+
+textarea.middle_box::selection,
+textarea.middle_box:focus::selection,
+textarea.mb_unfocus::selection {
+    background: rgba(0, 122, 228, 0.43);
+}
+
+textarea.end_box::selection,
+textarea.end_box:focus::selection,
+textarea.eb_unfocus::selection {
+    background: rgba(175, 0, 192, 0.43);
+}
+
+::selection {
+    background: rgba(53, 53, 53, 0.72)
+}
