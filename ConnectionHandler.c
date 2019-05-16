@@ -45,34 +45,33 @@ void *get_in_addr(struct sockaddr *sa)
 
 void HandleConnection(int socket) {
 	int sockfd = socket;
-	//printf("Opening socket %d\n", sockfd);
 	char buf[RECV_BUFFER_SIZE];
 	int nBytes;
 	while ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
 		buf[nBytes] = '\0';
-		printf("%s\n", buf);
 		struct httpheader *httpheader_ = getHttpHeaderStruct(buf);
-		char* requestType = malloc(strlen(httpheader_->firstline) * sizeof(char));
-		char* uri = malloc(strlen(httpheader_->firstline) * sizeof(char));
-		char* garbage = malloc(strlen(httpheader_->firstline) * sizeof(char));
+		char* requestType = malloc(strlen(httpheader_->firstline) * sizeof(char)); // GET, POST
+		char* uri = malloc(strlen(httpheader_->firstline) * sizeof(char));	// requested location
+		char* garbage = malloc(strlen(httpheader_->firstline) * sizeof(char));	// HTTP Header Message (unnecessary)
 		sscanf(httpheader_->firstline, "%s %s %s", requestType, uri, garbage);
 		struct input *input_ = decode_uri(uri);
 
 		if (strcmp(requestType, "GET") == 0) {
-			if (strcmp(input_->path, "/") == 0) {
+			if (strcmp(input_->path, "/") == 0) { // root directory = webserver.html
 				input_->path = "/webserver.html";
 			}
 
-			input_->path++;
+			input_->path++; // remove first character (/)
 			FILE *fp = fopen(input_->path, "r");
 			if (fp != NULL) {
+				// read file into content
 				fseek(fp, 0, SEEK_END);
 				long int size = ftell(fp);
 				fseek(fp, 0, SEEK_SET);
 				char *content = malloc((size + 1) * sizeof(char));
 				fread(content, 1, size, fp);
 				fclose(fp);
-				char *content_type;
+				char *content_type; // get content type for header
 				char *dot = strchr(input_->path, '.');
 				if (strcmp(dot, ".css") == 0) {
 					content_type = "text/css";
@@ -89,24 +88,25 @@ void HandleConnection(int socket) {
 					"\n"
 					"%s";
 				char *reply = malloc((size + 100) * sizeof(char));
-				sprintf(reply, format, content_type, strlen(content) - 1, content);
+				sprintf(reply, format, content_type, strlen(content) - 1, content); // formating string to be sent
 				if (send(sockfd, reply, strlen(reply), 0) == -1) {
 					perror("send");
 				}
 			} else {
+				// send 404 when the file isn't found
 				char *reply404 =
 					"HTTP/1.1 404 Not Found\n"
 					"Content-Type: text/html\n"
 					"Content-Length: 23\n"
 					"\n"
 					"HTTP 404 Page Not Found";
-				printf("Unable to send requested resource %s\n", input_->path);
+				printf("Unable to find requested resource %s\n", input_->path);
 				if (send(sockfd, reply404, strlen(reply404), 0) == -1) {
 					perror("send");
 				}
 			}
 		} else if (strcmp(requestType, "POST") == 0) {
-			struct input *input_ = decode_uri(uri);
+			struct input *input_ = decode_uri(uri); // break uri into path and command
 			if (strcmp(input_->path, "/exec") == 0) {
 				struct output *output_ = handle_command(input_->cmd);
 				char *outputString = getOutputJsonString(output_);
@@ -121,18 +121,24 @@ void HandleConnection(int socket) {
 				if (send(sockfd, reply, strlen(reply), 0) == -1) {
 					perror("send");
 				}
+			} else {
+				// send 404 on any other path
+				char *reply404 =
+					"HTTP/1.1 404 Not Found\n"
+					"Content-Type: text/html\n"
+					"Content-Length: 23\n"
+					"\n"
+					"HTTP 404 Page Not Found";
+				printf("Unable to find requested resource %s\n", input_->path);
+				if (send(sockfd, reply404, strlen(reply404), 0) == -1) {
+					perror("send");
+				}
 			}
 		}
 	}
-
-	/*if ((nBytes = recv(sockfd, buf, RECV_BUFFER_SIZE - 1, 0)) > 0) {
-		buf[nBytes] = '\0';
-		printf("I SHOULD NOT GET THIS\n%s\n", buf);
-	}*/
 	if (nBytes == -1) {
 		perror("recv");
 	}
-	//printf("Closing socket %d\n", sockfd);
 	close(sockfd);
 }
 
@@ -217,45 +223,6 @@ int main(int argc, char *argv[]) {
 		sin_size = sizeof their_addr;
 		new_fd = accept(sockfd, (struct sockaddr *)&their_addr, &sin_size);
 
-		/*if (restrictConnections == 1) {
-			char ipaddress[INET_ADDRSTRLEN];
-			struct sockaddr *client_sockaddr = (struct sockaddr *)&their_addr;
-			if (client_sockaddr->sa_family == AF_INET) {
-				inet_ntop(AF_INET, &((struct sockaddr_in *)client_sockaddr)->sin_addr, ipaddress, INET_ADDRSTRLEN);
-				if (strcmp(ipaddress, "127.0.0.1") != 0) {
-					char *reply =
-						"HTTP/1.1 403 Forbidden\n"
-						"Content-Type: text/html\n"
-						"Content-Length: 18\n"
-						"\n"
-						"HTTP 403 Forbidden";
-					printf("server: connection refused to %s\n", ipaddress);
-					if (send(sockfd, reply, strlen(reply), 0) == -1) {
-						perror("send");
-					}
-					close(new_fd);
-					continue;
-				}
-			} else if (client_sockaddr->sa_family == AF_INET6) {
-				inet_ntop(AF_INET6, &((struct sockaddr_in6 *)client_sockaddr)->sin6_addr, ipaddress, INET_ADDRSTRLEN);
-				if (strcmp(ipaddres, "::1") != 0) {
-					char *reply =
-						"HTTP/1.1 403 Forbidden\n"
-						"Content-Type: text/html\n"
-						"Content-Length: 18\n"
-						"\n"
-						"HTTP 403 Forbidden";
-					printf("server: connection refused to %s\n", ipaddress);
-					if (send(sockfd, reply, strlen(reply), 0) == -1) {
-						perror("send");
-					}
-					close(new_fd);
-					continue;
-				}
-			}
-
-		}*/
-
 		if (new_fd == -1) {
 			perror("accept");
 			continue;
@@ -263,6 +230,7 @@ int main(int argc, char *argv[]) {
 
 		inet_ntop(their_addr.ss_family, get_in_addr((struct sockaddr *)&their_addr), s, sizeof s);
 		printf("server: got connection from %s\n", s);
+		// If restrictConnections is enabled and the client ip is the loopback address return a 403 error
 		if (restrictConnections == 1) {
 			if (strcmp(s, "127.0.0.1") != 0 && strcmp(s, "::1") != 0) {
 				char *reply =
@@ -280,6 +248,7 @@ int main(int argc, char *argv[]) {
 			}
 		}
 
+		// fork a child process and handle the new socket connection
 		if (!fork()) {
 			HandleConnection(new_fd);
 			exit(0);

@@ -6,6 +6,7 @@
 #include "structs.h"
 
 // Credit to https://stackoverflow.com/a/14530993
+// Replaces %## with appropriate special character
 void remove_special_characters(char *dst, const char *src) {
 	char a, b;
 	while (*src) {
@@ -37,7 +38,7 @@ void remove_special_characters(char *dst, const char *src) {
 void build_struct(struct input *input_, char *uri) {
 	input_->path = malloc(strlen(uri) * sizeof(char));
 	input_->cmd = malloc(strlen(uri) * sizeof(char));
-	char *qus = strchr(uri, '?');
+	char *qus = strchr(uri, '?'); // replace the ? with a space
 	if (qus != NULL) {
 		*qus = ' ';
 	}

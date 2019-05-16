@@ -10,6 +10,7 @@
 #define INITIAL_BUFFER_SIZE 1024
 
 struct output *handle_command(char *cmd) {
+	// converts cmd to char *[] split by space
 	int arg_count = 2;
 	char *chr;
 	for (chr = cmd; *chr != '\0'; chr++) {
@@ -70,7 +71,7 @@ struct output *execute_command(char *cmd[]) {
 			stderr_ = realloc(stderr_, stderrsize * sizeof(char));
 			nBytes = read(perr[0], &stderr_[stderrsize - INITIAL_BUFFER_SIZE], INITIAL_BUFFER_SIZE);
 		} while (nBytes == INITIAL_BUFFER_SIZE);
-		waitpid(pid, NULL, 0);
+		waitpid(pid, NULL, 0); // wait until the child fork is finished
 		struct output *output_ = malloc(sizeof(struct output));
 		output_->stdout_ = stdout_;
 		output_->stderr_ = stderr_;
