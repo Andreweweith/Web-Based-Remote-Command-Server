@@ -15,13 +15,7 @@ window.onload = function() {
 
         formCommand.value = "";
 
-        commandBox.value = "";
-        commandBox.value += commandText;
-
-        stdout.value = "";
-        stdout.value += "Stdout";
-        stderr.value = "";
-        stderr.value += "Stderr";
+        commandBox.value += commandText + "\n";
 
         var request = new XMLHttpRequest();
         request.open("POST","/exec?cmd="+commandText,true);
@@ -33,9 +27,6 @@ window.onload = function() {
 
 function handleResponse() {
     if (this.status == 200 && this.responseText != null) {
-
-        document.getElementById("combox").value =
-                                    document.getElementById("command").value;
 
         var response = JSON.parse(this.responseText);
 
