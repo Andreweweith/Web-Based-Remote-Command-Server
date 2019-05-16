@@ -3,18 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>wrc-server</title>
-    <link rel="stylesheet" type="text/css" href="wrcserver_css.css">
+    <link rel="stylesheet" type="text/css" href="css/wrcserver_css.css">
     <script src="wrcserver_js.js"></script>
     <style>
         body{background-color: #191414;}
     </style>
 </head>
 <body>
-
-
-
         <h1 style="color: grey">Team Physics - <font size="5">Alex Bonasera, Andrew Weith, Mac Shakshober</font></h1>
-
 
         <div class="row" style="alignment: center">
 
@@ -26,26 +22,16 @@
                         <input type="button" id="run" value="Run">
                     </form>
                 </div>
-
         </div>
 
-
-
         <div class="row">
-            <textarea class="end_box" id="combox" onfocus="this.class = 'end_box'" onblur="this.class = 'eb_unfocus'">
-
-            </textarea>
+            <textarea class="end_box" id="combox" onfocus="this.class = 'end_box'" onblur="this.class = 'eb_unfocus'" contenteditable="false"></textarea>
         </div>
 
-
         <div class="row">
-            <textarea class="middle_box" id="stdout"  onfocus="this.class = 'middle_box'" onblur="this.class = 'mb_unfocus'">
+            <textarea class="middle_box" id="stdout"  onfocus="this.class = 'middle_box'" onblur="this.class = 'mb_unfocus'" contenteditable="false"></textarea>
 
-            </textarea>
-
-            <textarea class="middle_box" id="stderr" onfocus="this.class = 'middle_box'" onblur="this.class = 'mb_unfocus'">
-
-            </textarea>
+            <textarea class="middle_box" id="stderr" onfocus="this.class = 'middle_box'" onblur="this.class = 'mb_unfocus'" contenteditable="false"></textarea>
         </div>
 
 </body>
