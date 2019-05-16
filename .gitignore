@@ -1,0 +1,7 @@
+CommandHandler.o
+CommandLineHandler.o
+ConnectionHandler.o
+HttpHeaderInterpreter.o
+JsonOutput.o
+URIDecoder.o
+wrc-server.exe
