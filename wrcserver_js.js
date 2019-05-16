@@ -11,6 +11,7 @@ window.onload = function() {
     stderr = document.getElementById("stderr");
 
     formRun.onclick = function run() {
+	formRun.disabled= true;
         var commandText = document.getElementById("command").value;
 
         formCommand.value = "";
@@ -36,4 +37,5 @@ function handleResponse() {
     else if (this.status == 404) {
         console.log("404 - Error has occurred");
     }
+    document.getElementById("run").disabled= false;
 }
