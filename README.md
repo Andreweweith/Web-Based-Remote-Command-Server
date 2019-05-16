@@ -26,7 +26,7 @@ Members: Andrew Weith, Alex Bonasera, Mac Shakshober
 
 **Additional Functionalities**
 
-1. Providing the `-p` option followed by a positive integer will change the port that the server is run on.
+1. Providing the `-p` option followed by a positive integer in the range 0-65535 will change the port that the server is run on.
 
 2. The server allows asynchronous submission of the command to the server and display of results to the user without needing to reload the page.
 

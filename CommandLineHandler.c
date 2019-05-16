@@ -52,7 +52,8 @@ int handleCommandLineOptions(int argc, char** argv, struct commandlineoptions *o
 		"As a security measure, the server only accepts connections from localhost by default\n\n"
 		"OPTIONs:\n"
 		"  -r                       allows the server to accept connections not from localhost\n"
-		"  -p, --port=PORTNUMBER    use PORTNUMBER instead of the default port: 3838\n\n"
+		"  -p, --port=PORTNUMBER    use PORTNUMBER instead of the default port: 3838\n"
+		"                           PORTNUMBER must be in the range 0-65535\n\n"
 		"Exit status:\n"
 		" 0  if OK\n"
 		" 1  if #SPECIFY#\n\n"
@@ -89,7 +90,16 @@ int handleCommandLineOptions(int argc, char** argv, struct commandlineoptions *o
 					}
 					// If this code runs, a valid port was specified
 					portWasNotSet = 0;
-					strcpy(options->port, argv[i]);
+					if (atoi(argv[i]) <= 65535)
+					{
+						strcpy(options->port, argv[i]);
+					}
+					else
+					{
+						// At least 1 character was not an integer: incorrect command line input
+						fprintf(stderr, "%s specified port is too large, use 0-65535: '%s'\n%s\n", errorMsg, argv[i], seeHelp);
+						return 0;
+					}
 				}
 				// An argument was NOT provided for option '-p'
 				else
